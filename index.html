@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="uk" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BB Park | Преміальне котеджне містечко (Боярка-Білогородка)</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#1a1d1a',    // Глибокий графітово-зелений
+                            green: '#2c4c3b',   // Шляхетний смарагд
+                            light: '#f5f4f0',   // Теплий беж / кашемір
+                            accent: '#c5a880',  // Приглушене золото
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        [x-cloak] { display: none !important; }
+
+        /* Базові стилі для анімацій появи */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        /* Ефект матового скла */
+        .glass-nav {
+            background: rgba(245, 244, 240, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* Стилізація відео-фону */
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(26, 29, 26, 0.4) 0%, rgba(26, 29, 26, 0.8) 100%);
+        }
+        
+        @media (max-width: 1600px) {
+            .container{
+                max-width: 100% !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-brand-light text-brand-dark antialiased" x-data="{ scrolled: false, mobileMenu: false }" @scroll.window="scrolled = (window.pageYOffset > 50)">
+
+<header class="fixed w-full z-50 transition-all duration-500" :class="{ 'glass-nav py-4': scrolled, 'bg-transparent py-6': !scrolled }">
+    <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
+
+        <a href="#" class="flex items-center gap-4 z-50 group">
+            <div class="w-12 h-12 rounded-full border-2 transition-colors duration-300 flex items-center justify-center" :class="scrolled || mobileMenu ? 'border-brand-dark text-brand-dark' : 'border-white text-white'">
+                <span class="font-serif font-bold text-xl">BB</span>
+            </div>
+            <div class="flex flex-col">
+                <span class="font-serif font-bold text-2xl leading-none tracking-wide transition-colors" :class="scrolled || mobileMenu ? 'text-brand-dark' : 'text-white'">BB Park</span>
+                <span class="text-[10px] uppercase tracking-[0.2em] font-bold transition-colors" :class="scrolled || mobileMenu ? 'text-brand-green' : 'text-white/70'">Котеджне містечко</span>
+            </div>
+        </a>
+
+        <nav class="hidden xl:flex items-center 2xl:gap-10 gap-6">
+            <a href="#philosophy" class="text-xs font-bold uppercase tracking-widest transition-colors hover:text-brand-accent" :class="scrolled ? 'text-brand-dark' : 'text-white'">Філософія</a>
+            <a href="#infrastructure" class="text-xs font-bold uppercase tracking-widest transition-colors hover:text-brand-accent" :class="scrolled ? 'text-brand-dark' : 'text-white'">Інфраструктура</a>
+            <a href="#residences" class="text-xs font-bold uppercase tracking-widest transition-colors hover:text-brand-accent" :class="scrolled ? 'text-brand-dark' : 'text-white'">Резиденції</a>
+            <a href="#charity" class="text-xs font-bold uppercase tracking-widest transition-colors hover:text-brand-accent" :class="scrolled ? 'text-brand-green' : 'text-emerald-300'">Фонд</a>
+            <a href="#developer" class="text-xs font-bold uppercase tracking-widest transition-colors hover:text-brand-accent" :class="scrolled ? 'text-brand-dark' : 'text-white'">Забудовник</a>
+        </nav>
+
+        <div class="flex items-center gap-4 sm:gap-6 z-50">
+
+            <a href="tel:+380678888308" class="md:hidden flex items-center justify-center w-10 h-10 rounded-full border transition-colors duration-300" :class="scrolled || mobileMenu ? 'border-brand-dark/20 text-brand-dark hover:bg-brand-dark hover:text-white' : 'border-white/30 text-white hover:bg-white hover:text-brand-dark'">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.896-1.596-5.25-3.95-6.847-6.847l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"></path></svg>
+            </a>
+
+            <div class="hidden md:flex items-center gap-6">
+                <a href="tel:+380678888308" class="font-medium text-lg transition-colors" :class="scrolled || mobileMenu ? 'text-brand-dark' : 'text-white'">+38 (067) 888 83 08</a>
+                <a href="#contact" class="bg-brand-accent hover:bg-brand-dark text-white px-8 py-3 rounded-none text-xs font-bold uppercase tracking-widest transition-all duration-300">Залишити запит</a>
+            </div>
+
+            <button @click="mobileMenu = !mobileMenu" class="xl:hidden focus:outline-none transition-colors" :class="scrolled || mobileMenu ? 'text-brand-dark' : 'text-white'">
+                <svg x-show="!mobileMenu" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                <svg x-show="mobileMenu" x-cloak class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+    </div>
+
+    <div x-show="mobileMenu" x-transition.opacity x-cloak class="fixed inset-0 bg-brand-light z-40 flex flex-col justify-center items-center gap-8 text-center px-6">
+        <a href="#philosophy" @click="mobileMenu = false" class="font-serif text-3xl text-brand-dark hover:text-brand-accent transition-colors">Філософія простору</a>
+        <a href="#residences" @click="mobileMenu = false" class="font-serif text-3xl text-brand-dark hover:text-brand-accent transition-colors">Обрати резиденцію</a>
+        <a href="#infrastructure" @click="mobileMenu = false" class="font-serif text-3xl text-brand-dark hover:text-brand-accent transition-colors">Локація та інфраструктура</a>
+        <a href="#charity" @click="mobileMenu = false" class="font-serif text-3xl text-brand-green hover:text-brand-accent transition-colors">Програма фонду</a>
+        <div class="mt-8 pt-8 border-t border-brand-dark/10 w-full">
+            <a href="tel:+380678888308" class="block text-2xl font-bold text-brand-dark mb-4">+38 (067) 888 83 08</a>
+            <a href="#contact" @click="mobileMenu = false" class="inline-block bg-brand-dark text-white px-10 py-4 text-sm font-bold uppercase tracking-widest">Замовити перегляд</a>
+        </div>
+    </div>
+</header>
+
+<section class="relative h-screen min-h-[800px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 z-0 bg-brand-dark">
+        <video
+                autoplay
+                muted
+                loop
+                playsinline
+                poster="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=2000"
+                class="w-full h-full object-cover opacity-90 transition-opacity duration-1000"
+        >
+            <source src="assets/images/video/video.mp4" type="video/mp4">
+            Ваш браузер не підтримує відео.
+        </video>
+
+        <div class="absolute inset-0 bg-gradient-to-b from-brand-dark/60 via-transparent to-brand-dark/90"></div>
+        <div class="absolute inset-0 bg-black/20"></div>
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10 text-center text-white mt-20" x-data="{ shown: false }" x-init="setTimeout(() => shown = true, 100)">
+        <div class="overflow-hidden mb-6">
+            <p class="text-brand-accent text-sm md:text-base font-bold uppercase tracking-[0.3em] transform transition-transform duration-1000" :class="shown ? 'translate-y-0' : 'translate-y-full'">Боярка — Білогородка</p>
+        </div>
+
+        <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-[1.1] transition-all duration-1000 delay-300" :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'">
+            Мистецтво жити<br>
+            <span class="italic text-white/90">на своїй землі</span>
+        </h1>
+
+        <p class="text-lg md:text-xl font-light text-white/80 max-w-2xl mx-auto mb-12 leading-relaxed transition-all duration-1000 delay-500" :class="shown ? 'opacity-100' : 'opacity-0'">
+            BB Park — це закрите котеджне містечко нового покоління. Ідеальний баланс між приватністю заміського будинку та бездоганним міським комфортом.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-6 justify-center transition-all duration-1000 delay-700" :class="shown ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'">
+            <a href="#residences" class="bg-brand-accent hover:bg-white hover:text-brand-dark text-white px-10 py-5 text-sm font-bold uppercase tracking-widest transition-all duration-300">Переглянути планування</a>
+            <a href="#contact" class="border border-white/30 hover:bg-white/10 text-white px-10 py-5 text-sm font-bold uppercase tracking-widest transition-all duration-300">Отримати презентацію</a>
+        </div>
+    </div>
+
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center animate-bounce text-white/50 hidden md:flex">
+        <span class="text-[10px] uppercase tracking-widest mb-2">Scroll</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+    </div>
+</section>
+
+<section id="philosophy" class="py-24 md:py-32 overflow-hidden">
+    <div class="container mx-auto px-6 md:px-12">
+        <div class="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+
+            <div class="lg:w-1/2" x-data="{ shown: false }" x-intersect.once="shown = true">
+                <p class="text-brand-accent font-bold uppercase tracking-[0.2em] text-xs mb-6 reveal" :class="shown ? 'active' : ''">Концепція простору</p>
+                <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl text-brand-dark mb-8 leading-tight reveal delay-100" :class="shown ? 'active' : ''">
+                    Дім, який <br><span class="italic text-brand-green">відчуває вас.</span>
+                </h2>
+
+                <div class="space-y-6 text-brand-dark/70 text-lg font-light leading-relaxed reveal delay-200" :class="shown ? 'active' : ''">
+                    <p>Створюючи BB Park, ми відмовилися від ідеї типової забудови. Ми проектували екосистему, де кожен формат житла — від смарт-квартири до просторого квадробудинку — має свою філософію, але об'єднаний єдиним високим стандартом якості.</p>
+                    <p>Це простір для тих, хто втомився від бетонних джунглів і шукає місце сили. Де ранок починається не з гудків автомобілів, а з кави на власній терасі або у власному дворику. Це територія, де діти безпечно граються на свіжому повітрі, а ви насолоджуєтесь тишею.</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-8 mt-12 reveal delay-300" :class="shown ? 'active' : ''">
+                    <div class="border-l-2 border-brand-accent pl-6">
+                        <p class="text-3xl font-serif text-brand-dark mb-2">100%</p>
+                        <p class="text-sm font-bold uppercase tracking-wider text-brand-dark/50">Автономність комунікацій</p>
+                    </div>
+                    <div class="border-l-2 border-brand-accent pl-6">
+                        <p class="text-3xl font-serif text-brand-dark mb-2">1.33<span class="text-lg">сот</span></p>
+                        <p class="text-sm font-bold uppercase tracking-wider text-brand-dark/50">Власна ділянка (квадро)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:w-1/2 relative" x-data="{ shown: false }" x-intersect.once="shown = true">
+                <div class="aspect-[4/5] overflow-hidden reveal" :class="shown ? 'active' : ''">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover transition-transform duration-1000 hover:scale-105" alt="Дизайн будинку">
+                </div>
+                <div class="absolute -bottom-10 -left-10 bg-brand-green p-10 md:p-12 text-white reveal delay-200 hidden md:block max-w-xs" :class="shown ? 'active' : ''">
+                    <svg class="w-10 h-10 mb-6 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <p class="font-serif text-2xl mb-2">Закрита територія</p>
+                    <p class="text-sm font-light opacity-80">Безпека вашої родини — наш абсолютний пріоритет.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="infrastructure" class="py-24 md:py-32 bg-white relative border-y border-brand-dark/5" x-data="{ activeItem: 1 }">
+    <div class="container mx-auto px-6 md:px-12">
+
+        <div class="max-w-3xl mb-16" x-data="{ shown: false }" x-intersect.once="shown = true">
+            <div class="flex items-center gap-4 mb-6 reveal" :class="shown ? 'active' : ''">
+                <span class="w-12 h-px bg-brand-accent"></span>
+                <p class="text-brand-accent font-bold uppercase tracking-[0.2em] text-xs">Екосистема</p>
+            </div>
+            <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl text-brand-dark reveal delay-100 leading-tight" :class="shown ? 'active' : ''">
+                Все необхідне. <br><span class="italic text-brand-dark/50">І трохи більше.</span>
+            </h2>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-12 lg:gap-24 items-start">
+
+            <div class="lg:col-span-5 flex flex-col w-full relative z-10" x-data="{ shown: false }" x-intersect.once="shown = true">
+                <div class="reveal delay-200" :class="shown ? 'active' : ''">
+
+                    <div class="border-b border-brand-dark/10 group cursor-pointer" @mouseenter="activeItem = 1" @click="activeItem = 1">
+                        <div class="py-8 flex items-start gap-6 transition-colors duration-500" :class="activeItem === 1 ? 'text-brand-dark' : 'text-brand-dark/40 hover:text-brand-dark/70'">
+                            <div class="mt-1 transition-transform duration-500" :class="activeItem === 1 ? 'scale-110 text-brand-accent' : ''">
+                                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-serif text-3xl mb-2 transition-all duration-500">Шопінг та сервіси</h3>
+                                <div class="grid transition-all duration-500 ease-in-out" :class="activeItem === 1 ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'">
+                                    <div class="overflow-hidden">
+                                        <p class="font-light text-brand-dark/70 leading-relaxed text-lg pr-4">
+                                            Лише кілька хвилин на авто — і ви у великих мережевих супермаркетах: «Сільпо», будівельний «Епіцентр», «Анжіо» та улюблений «McDonald's». Усе для комфортного побуту.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-b border-brand-dark/10 group cursor-pointer" @mouseenter="activeItem = 2" @click="activeItem = 2">
+                        <div class="py-8 flex items-start gap-6 transition-colors duration-500" :class="activeItem === 2 ? 'text-brand-dark' : 'text-brand-dark/40 hover:text-brand-dark/70'">
+                            <div class="mt-1 transition-transform duration-500" :class="activeItem === 2 ? 'scale-110 text-brand-accent' : ''">
+                                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon>
+                                    <line x1="9" y1="3" x2="9" y2="18"></line>
+                                    <line x1="15" y1="6" x2="15" y2="21"></line>
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-serif text-3xl mb-2 transition-all duration-500">Логістика</h3>
+                                <div class="grid transition-all duration-500 ease-in-out" :class="activeItem === 2 ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'">
+                                    <div class="overflow-hidden">
+                                        <p class="font-light text-brand-dark/70 leading-relaxed text-lg pr-4">
+                                            Зупинка громадського транспорту знаходиться безпосередньо біля містечка. Зручний та швидкий виїзд до меж Києва без заторів, що зберігає ваш найцінніший ресурс — час.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-b border-brand-dark/10 group cursor-pointer" @mouseenter="activeItem = 3" @click="activeItem = 3">
+                        <div class="py-8 flex items-start gap-6 transition-colors duration-500" :class="activeItem === 3 ? 'text-brand-dark' : 'text-brand-dark/40 hover:text-brand-dark/70'">
+                            <div class="mt-1 transition-transform duration-500" :class="activeItem === 3 ? 'scale-110 text-brand-accent' : ''">
+                                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-serif text-3xl mb-2 transition-all duration-500">Освітні заклади</h3>
+                                <div class="grid transition-all duration-500 ease-in-out" :class="activeItem === 3 ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'">
+                                    <div class="overflow-hidden">
+                                        <p class="font-light text-brand-dark/70 leading-relaxed text-lg pr-4">
+                                            Вашим дітям не доведеться далеко їздити. Поруч розташовані сучасні державні та приватні дитячі садки, а також школи Боярки та Білогородки з високим рівнем викладання.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-b border-brand-dark/10 group cursor-pointer" @mouseenter="activeItem = 4" @click="activeItem = 4">
+                        <div class="py-8 flex items-start gap-6 transition-colors duration-500" :class="activeItem === 4 ? 'text-brand-dark' : 'text-brand-dark/40 hover:text-brand-dark/70'">
+                            <div class="mt-1 transition-transform duration-500" :class="activeItem === 4 ? 'scale-110 text-brand-accent' : ''">
+                                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                                    <line x1="2" y1="22" x2="11" y2="20"></line>
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-serif text-3xl mb-2 transition-all duration-500">Екологія</h3>
+                                <div class="grid transition-all duration-500 ease-in-out" :class="activeItem === 4 ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'">
+                                    <div class="overflow-hidden">
+                                        <p class="font-light text-brand-dark/70 leading-relaxed text-lg pr-4">
+                                            Чисте повітря, відсутність промислових підприємств, близькість лісових масивів для прогулянок та ранкових пробіжок. Ваш персональний природний ретрит.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 h-[400px] lg:h-[600px] relative overflow-hidden shadow-2xl sticky top-32" x-data="{ shown: false }" x-intersect.once="shown = true">
+                <div class="absolute inset-0 reveal delay-300 h-full w-full" :class="shown ? 'active' : ''">
+                    <img src="assets/images/img6.webp"
+                         class="absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out"
+                         :class="activeItem === 1 ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'"
+                         alt="Шопінг">
+
+                    <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&q=80&w=1200"
+                         class="absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out"
+                         :class="activeItem === 2 ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'"
+                         alt="Логістика">
+
+                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=1200"
+                         class="absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out"
+                         :class="activeItem === 3 ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'"
+                         alt="Освіта">
+
+                    <img src="assets/images/img8.webp"
+                         class="absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out"
+                         :class="activeItem === 4 ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'"
+                         alt="Екологія">
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/40 to-transparent"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="residences" class="py-24 md:py-32 bg-brand-light overflow-hidden">
+    <div class="container mx-auto px-6 md:px-12">
+
+        <div class="text-center max-w-3xl mx-auto mb-24" x-data="{ shown: false }" x-intersect.once="shown = true">
+            <p class="text-brand-accent font-bold uppercase tracking-[0.2em] text-xs mb-4 reveal" :class="shown ? 'active' : ''">Колекція нерухомості BB. Park</p>
+            <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl text-brand-dark mb-6 reveal delay-100 leading-tight" :class="shown ? 'active' : ''">Оберіть свій масштаб</h2>
+            <p class="text-brand-dark/70 font-light text-lg reveal delay-200" :class="shown ? 'active' : ''">Від затишних клубних квартир до просторих квадробудинків із власним подвір'ям. Автономні комунікації та готові рішення для вашого комфорту.</p>
+        </div>
+
+        <div class="space-y-32">
+
+            <article class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 group" x-data="{ shown: false }" x-intersect.once="shown = true">
+                <div class="w-full lg:w-1/2 relative overflow-hidden shadow-2xl aspect-[4/3] reveal" :class="shown ? 'active' : ''">
+                    <div class="absolute top-6 left-6 z-10 bg-white/95 backdrop-blur-sm px-5 py-3 flex items-center gap-3 shadow-lg border border-brand-dark/5">
+                        <span class="w-2 h-2 bg-brand-green animate-pulse"></span>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-brand-dark">Збудований (1 черга)</span>
+                    </div>
+                    <img src="assets/images/img2.webp" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" alt="Збудований квадробудинок">
+                </div>
+
+                <div class="w-full lg:w-1/2 flex flex-col justify-center reveal delay-200" :class="shown ? 'active' : ''">
+                    <h3 class="font-serif text-3xl md:text-4xl text-brand-dark mb-4">1-поверховий квадробудинок</h3>
+                    <p class="text-lg text-brand-dark/70 font-light mb-8 leading-relaxed">Просторе планування з можливістю створення 1.5-поверхової квартири зі спальнею на горі.</p>
+
+                    <div class="grid grid-cols-2 gap-6 mb-10 border-l-2 border-brand-accent pl-6">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest text-brand-dark/40 mb-1">Площа</p>
+                            <p class="font-serif text-xl text-brand-dark">33 м² <span class="text-sm font-sans font-light text-brand-dark/60">(стеля 4.2 м)</span></p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest text-brand-dark/40 mb-1">Власна ділянка</p>
+                            <p class="font-serif text-xl text-brand-dark">1.33 сотки</p>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-4 mb-10">
+                        <li class="flex items-start gap-4 text-brand-dark/80 font-light">
+                            <svg class="w-5 h-5 text-brand-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Встановлено вікна та накрито дах</span>
+                        </li>
+                        <li class="flex items-start gap-4 text-brand-dark/80 font-light">
+                            <svg class="w-5 h-5 text-brand-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Газоблок 300 мм + пінопласт 100 мм</span>
+                        </li>
+                        <li class="flex items-start gap-4 text-brand-dark/80 font-light">
+                            <svg class="w-5 h-5 text-brand-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Власний септик та свердловина</span>
+                        </li>
+                    </ul>
+
+                    <div class="bg-white p-6 shadow-lg border border-brand-dark/5 flex flex-col xl:flex-row xl:items-center justify-between gap-8 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-green/5 blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+                        <div class="relative z-10">
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-2">Вартість від</p>
+                            <p class="font-serif text-4xl text-brand-green mb-1">$29,000</p>
+                            <p class="text-xs text-brand-dark/50 font-bold uppercase tracking-wider">0% на 6 міс. (внесок 50%)</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row w-full xl:w-auto gap-4 relative z-10">
+                            <a href="#property-1" class="flex-1 sm:flex-none flex items-center justify-center gap-3 border border-brand-dark/20 hover:border-brand-dark text-brand-dark px-8 py-4 text-xs font-bold uppercase tracking-widest transition-colors text-center">
+                                Детальніше
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </a>
+                            <a href="#contact" class="flex-1 sm:flex-none flex items-center justify-center bg-brand-dark hover:bg-brand-accent text-white px-8 py-4 text-xs font-bold uppercase tracking-widest transition-colors text-center">
+                                Заявка
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-20 group" x-data="{ shown: false }" x-intersect.once="shown = true">
+                <div class="w-full lg:w-1/2 relative overflow-hidden shadow-2xl aspect-[4/3] reveal" :class="shown ? 'active' : ''">
+                    <div class="absolute top-6 left-6 z-10 bg-brand-dark/95 backdrop-blur-sm px-5 py-3 flex items-center gap-3 shadow-lg">
+                        <svg class="w-3 h-3 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-white">Останні 2 квартири</span>
+                    </div>
+                    <img src="assets/images/img1.webp" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" alt="Квадробудинки (останні)">
+                </div>
+
+                <div class="w-full lg:w-1/2 flex flex-col justify-center reveal delay-200" :class="shown ? 'active' : ''">
+                    <h3 class="font-serif text-3xl md:text-4xl text-brand-dark mb-4">1-поверхові квадробудинки</h3>
+                    <p class="text-lg text-brand-dark/70 font-light mb-8 leading-relaxed">Унікальна можливість об’єднати дві квартири. Відкритий простір з надзвичайно високою стелею.</p>
+
+                    <div class="grid grid-cols-2 gap-6 mb-10 border-l-2 border-brand-accent pl-6">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest text-brand-dark/40 mb-1">Площа</p>
+                            <p class="font-serif text-xl text-brand-dark">33 м² <span class="text-sm font-sans font-light text-brand-dark/60">(стеля 4.6 м)</span></p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest text-brand-dark/40 mb-1">Власна ділянка</p>
+                            <p class="font-serif text-xl text-brand-dark">1.5 сотки</p>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-4 mb-10">
+                        <li class="flex items-start gap-4 text-brand-dark/80 font-light">
+                            <svg class="w-5 h-5 text-brand-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Можливість облаштувати другий житловий рівень</span>
+                        </li>
+                        <li class="flex items-start gap-4 text-brand-dark/80 font-light">
+                            <svg class="w-5 h-5 text-brand-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Декоративна штукатурка, високоякісне фарбування</span>
+                        </li>
+                        <li class="flex items-start gap-4 text-brand-dark/80 font-light">
+                            <svg class="w-5 h-5 text-brand-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Власний двір та паркувальне місце</span>
+                        </li>
+                    </ul>
+
+                    <div class="bg-white p-6 shadow-lg border border-brand-dark/5 flex flex-col xl:flex-row xl:items-center justify-between gap-8 relative overflow-hidden">
+                        <div class="relative z-10">
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-2">Вартість від</p>
+                            <div class="flex items-baseline gap-4 mb-1">
+                                <p class="font-serif text-4xl text-brand-green">$28,000</p>
+                            </div>
+                            <p class="text-xs text-brand-accent font-bold uppercase tracking-wider">Знижка 10% при 100% оплаті</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row w-full xl:w-auto gap-4 relative z-10">
+                            <a href="#property-2" class="flex-1 sm:flex-none flex items-center justify-center gap-3 border border-brand-dark/20 hover:border-brand-dark text-brand-dark px-8 py-4 text-xs font-bold uppercase tracking-widest transition-colors text-center">
+                                Детальніше
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </a>
+                            <a href="#contact" class="flex-1 sm:flex-none flex items-center justify-center bg-brand-dark hover:bg-brand-accent text-white px-8 py-4 text-xs font-bold uppercase tracking-widest transition-colors text-center">
+                                Заявка
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 group" x-data="{ shown: false }" x-intersect.once="shown = true">
+                <div class="w-full lg:w-1/2 relative overflow-hidden shadow-2xl aspect-[4/3] reveal" :class="shown ? 'active' : ''">
+                    <div class="absolute top-6 left-6 z-10 bg-white/95 backdrop-blur-sm px-5 py-3 flex items-center gap-3 shadow-lg border border-brand-dark/5">
+                        <span class="w-2 h-2 bg-brand-accent"></span>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-brand-dark">Оптимальний вибір</span>
+                    </div>
+                    <img src="assets/images/img3.webp" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" alt="Двоповерховий квадробудинок">
+                </div>
+
+                <div class="w-full lg:w-1/2 flex flex-col justify-center reveal delay-200" :class="shown ? 'active' : ''">
+                    <h3 class="font-serif text-3xl md:text-4xl text-brand-dark mb-4">2-поверховий квадробудинок</h3>
+                    <p class="text-lg text-brand-dark/70 font-light mb-8 leading-relaxed">Повноцінний дім для сім'ї. Простору мансарду можна переобладнати під додаткову кімнату.</p>
+
+                    <div class="grid grid-cols-2 gap-6 mb-10 border-l-2 border-brand-accent pl-6">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest text-brand-dark/40 mb-1">Площа</p>
+                            <p class="font-serif text-xl text-brand-dark">70 м² <span class="text-sm font-sans font-light text-brand-dark/60">+ 20 м² манс.</span></p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest text-brand-dark/40 mb-1">Власна ділянка</p>
+                            <p class="font-serif text-xl text-brand-dark">1.33 сотки</p>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-4 mb-10">
+                        <li class="flex items-start gap-4 text-brand-dark/80 font-light">
+                            <svg class="w-5 h-5 text-brand-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Залізобетонні плити перекриття</span>
+                        </li>
+                        <li class="flex items-start gap-4 text-brand-dark/80 font-light">
+                            <svg class="w-5 h-5 text-brand-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Оплата готівкою, криптою або бартер</span>
+                        </li>
+                        <li class="flex items-start gap-4 text-brand-dark/80 font-light">
+                            <svg class="w-5 h-5 text-brand-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Знижки від БФ «МІЛА» для пільгових категорій</span>
+                        </li>
+                    </ul>
+
+                    <div class="bg-white p-6 shadow-lg border border-brand-dark/5 flex flex-col xl:flex-row xl:items-center justify-between gap-8 relative overflow-hidden">
+                        <div class="relative z-10">
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-2">Вартість від</p>
+                            <p class="font-serif text-4xl text-brand-dark mb-1">$45,000</p>
+                            <p class="text-xs text-brand-dark/50 font-bold uppercase tracking-wider">Знижка 10% при повній оплаті</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row w-full xl:w-auto gap-4 relative z-10">
+                            <a href="#property-3" class="flex-1 sm:flex-none flex items-center justify-center gap-3 border border-brand-dark/20 hover:border-brand-dark text-brand-dark px-8 py-4 text-xs font-bold uppercase tracking-widest transition-colors text-center">
+                                Детальніше
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </a>
+                            <a href="#contact" class="flex-1 sm:flex-none flex items-center justify-center bg-brand-dark hover:bg-brand-accent text-white px-8 py-4 text-xs font-bold uppercase tracking-widest transition-colors text-center">
+                                Заявка
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-20 group" x-data="{ shown: false }" x-intersect.once="shown = true">
+                <div class="w-full lg:w-1/2 relative overflow-hidden shadow-2xl aspect-[4/3] reveal" :class="shown ? 'active' : ''">
+                    <div class="absolute top-6 left-6 z-10 bg-brand-green/95 backdrop-blur-sm px-5 py-3 flex items-center gap-3 shadow-lg">
+                        <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-white">1 Черга • Готовий</span>
+                    </div>
+                    <img src="assets/images/img4.webp" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" alt="Готовий квадробудинок">
+                </div>
+
+                <div class="w-full lg:w-1/2 flex flex-col justify-center reveal delay-200" :class="shown ? 'active' : ''">
+                    <h3 class="font-serif text-3xl md:text-4xl text-brand-dark mb-4">Готовий 2-пов. квадробудинок</h3>
+                    <p class="text-lg text-brand-dark/70 font-light mb-8 leading-relaxed">Максимальна готовність. Вже встановлені сходи, вікна та накритий дах.</p>
+
+                    <div class="grid grid-cols-2 gap-6 mb-10 border-l-2 border-brand-accent pl-6">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest text-brand-dark/40 mb-1">Площа</p>
+                            <p class="font-serif text-xl text-brand-dark">70 м² <span class="text-sm font-sans font-light text-brand-dark/60">+ 20 м² манс.</span></p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest text-brand-dark/40 mb-1">Власна ділянка</p>
+                            <p class="font-serif text-xl text-brand-dark">1.5 сотки</p>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-4 mb-10">
+                        <li class="flex items-start gap-4 text-brand-dark/80 font-light">
+                            <svg class="w-5 h-5 text-brand-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Розташування між Бояркою та Білогородкою</span>
+                        </li>
+                        <li class="flex items-start gap-4 text-brand-dark/80 font-light">
+                            <svg class="w-5 h-5 text-brand-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Панорамне скління з двокамерними склопакетами</span>
+                        </li>
+                        <li class="flex items-start gap-4 text-brand-dark/80 font-light">
+                            <svg class="w-5 h-5 text-brand-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Можливий обмін на авто або іншу нерухомість</span>
+                        </li>
+                    </ul>
+
+                    <div class="bg-white p-6 shadow-lg border border-brand-dark/5 flex flex-col xl:flex-row xl:items-center justify-between gap-8 relative overflow-hidden">
+                        <div class="relative z-10">
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-2">Ціна зі знижкою 10%</p>
+                            <div class="flex items-baseline gap-4 mb-1">
+                                <p class="font-serif text-4xl text-brand-green">$48,600</p>
+                                <p class="text-lg text-brand-dark/30 line-through font-serif">$54,000</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row w-full xl:w-auto gap-4 relative z-10">
+                            <a href="#property-4" class="flex-1 sm:flex-none flex items-center justify-center gap-3 border border-brand-dark/20 hover:border-brand-dark text-brand-dark px-8 py-4 text-xs font-bold uppercase tracking-widest transition-colors text-center">
+                                Детальніше
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </a>
+                            <a href="#contact" class="flex-1 sm:flex-none flex items-center justify-center bg-brand-dark hover:bg-brand-accent text-white px-8 py-4 text-xs font-bold uppercase tracking-widest transition-colors text-center">
+                                Заявка
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 group"
+                     x-data="{
+             shown: false,
+             layout: '1k',
+             plans: {
+                 '1k': {
+                     title: '1-кімнатна квартира',
+                     desc: 'Ідеальна інвестиція або перше житло. Квартира з балконом на 2-му поверсі. Стан — після будівельних робіт.',
+                     area: '36.30',
+                     oldPrice: '25,410',
+                     price: '22,869',
+                     note: 'Можливе розтермінування на 12 міс.'
+                 },
+                 '2k': {
+                     title: '2-кімнатна квартира',
+                     desc: 'Просторе та ергономічне планування для сім\'ї. Правильне зонування простору та великий балкон. Здача: II квартал 2027.',
+                     area: '73.80',
+                     oldPrice: '47,970',
+                     price: '43,173',
+                     note: 'Розтермінування до 12 місяців'
+                 },
+                 'penthouse': {
+                     title: 'Дворівневий Пентхаус',
+                     desc: 'Ексклюзивний простір з виходом на власну терасу (15,6 м²), де можна облаштувати зону барбекю. Мальовничий краєвид на ліс.',
+                     area: '92.10',
+                     oldPrice: '60,000',
+                     price: '54,000',
+                     note: 'Знижка 10% при повній оплаті'
+                 }
+             }
+         }"
+                     x-intersect.once="shown = true">
+
+                <div class="w-full lg:w-1/2 relative overflow-hidden shadow-2xl aspect-[4/3] reveal" :class="shown ? 'active' : ''">
+                    <div class="absolute top-6 left-6 z-10 bg-white/95 backdrop-blur-sm px-5 py-3 flex items-center gap-3 shadow-lg border border-brand-dark/5 transition-colors">
+                        <svg class="w-4 h-4 text-brand-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-brand-dark">Здача: II квартал 2027</span>
+                    </div>
+                    <img src="assets/images/img9.webp" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" alt="Клубний будинок">
+                </div>
+
+                <div class="w-full lg:w-1/2 flex flex-col justify-center reveal delay-200" :class="shown ? 'active' : ''">
+                    <h3 class="font-serif text-3xl md:text-4xl text-brand-dark mb-6">Квартири в клубному будинку</h3>
+
+                    <div class="flex flex-wrap gap-2 mb-8 p-1 bg-brand-dark/5 w-max">
+                        <button @click="layout = '1k'" :class="layout === '1k' ? 'bg-brand-dark text-white shadow-md' : 'text-brand-dark/50 hover:text-brand-dark'" class="px-5 py-2 text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all">1-кімнатна</button>
+                        <button @click="layout = '2k'" :class="layout === '2k' ? 'bg-brand-dark text-white shadow-md' : 'text-brand-dark/50 hover:text-brand-dark'" class="px-5 py-2 text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all">2-кімнатна</button>
+                        <button @click="layout = 'penthouse'" :class="layout === 'penthouse' ? 'bg-brand-dark text-white shadow-md' : 'text-brand-dark/50 hover:text-brand-dark'" class="px-5 py-2 text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all">Пентхаус</button>
+                    </div>
+
+                    <div class="min-h-[100px] mb-6">
+                        <h4 class="text-xl font-bold text-brand-dark mb-2 transition-all" x-text="plans[layout].title"></h4>
+                        <p class="text-lg text-brand-dark/70 font-light leading-relaxed transition-all" x-text="plans[layout].desc"></p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6 mb-8 border-l-2 border-brand-accent pl-6">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest text-brand-dark/40 mb-1">Площа</p>
+                            <p class="font-serif text-xl text-brand-dark"><span x-text="plans[layout].area"></span> м²</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest text-brand-dark/40 mb-1">Висота стелі</p>
+                            <p class="font-serif text-xl text-brand-dark">3 метри</p>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-3 mb-10">
+                        <li class="flex items-start gap-4 text-brand-dark/80 font-light text-sm">
+                            <svg class="w-4 h-4 text-brand-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Квартири на 1 поверсі мають власні дворики</span>
+                        </li>
+                        <li class="flex items-start gap-4 text-brand-dark/80 font-light text-sm">
+                            <svg class="w-4 h-4 text-brand-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Додатково можна придбати комори та паркомісця</span>
+                        </li>
+                    </ul>
+
+                    <div class="bg-white p-6 shadow-lg border border-brand-dark/5 flex flex-col xl:flex-row xl:items-center justify-between gap-8 relative overflow-hidden transition-all duration-300">
+                        <div class="relative z-10">
+                            <p class="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-2">Ціна зі знижкою 10%</p>
+                            <div class="flex items-baseline gap-4 mb-1">
+                                <p class="font-serif text-4xl text-brand-green">$<span x-text="plans[layout].price"></span></p>
+                                <p class="text-lg text-brand-dark/30 line-through font-serif">$<span x-text="plans[layout].oldPrice"></span></p>
+                            </div>
+                            <p class="text-xs text-brand-dark/50 font-bold uppercase tracking-wider" x-text="plans[layout].note"></p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row w-full xl:w-auto gap-4 relative z-10">
+                            <a href="#contact" class="flex-1 sm:flex-none flex items-center justify-center gap-3 border border-brand-dark/20 hover:border-brand-dark text-brand-dark px-8 py-4 text-xs font-bold uppercase tracking-widest transition-colors text-center">
+                                Планування
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </a>
+                            <a href="#contact" class="flex-1 sm:flex-none flex items-center justify-center bg-brand-dark hover:bg-brand-accent text-white px-8 py-4 text-xs font-bold uppercase tracking-widest transition-colors text-center">
+                                Забронювати
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+<section id="charity" class="py-24 bg-brand-green text-white relative overflow-hidden" x-data="{ shown: false }" x-intersect.once="shown = true">
+    <div class="absolute inset-0 opacity-10">
+        <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <pattern id="pattern" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <path d="M0 40L40 0H20L0 20M40 40V20L20 40" fill="none" stroke="currentColor" stroke-width="1"/>
+                </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#pattern)"/>
+        </svg>
+    </div>
+
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+        <div class="max-w-4xl mx-auto text-center reveal" :class="shown ? 'active' : ''">
+            <p class="text-brand-accent font-bold uppercase tracking-[0.2em] text-xs mb-6">Соціальна відповідальність</p>
+            <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl mb-8 leading-tight">Додаткові знижки <br>від Благодійного Фонду</h2>
+
+            <p class="text-lg font-light text-white/80 leading-relaxed mb-12 max-w-2xl mx-auto">
+                Ми будуємо не лише стіни, ми будуємо спільноту. У партнерстві з Благодійним Фондом, забудовник надає спеціальні умови придбання житла. Військові, медики, волонтери та ВПО можуть отримати додаткові знижки на обрану нерухомість в BB Park.
+            </p>
+
+            <div class="inline-flex flex-col sm:flex-row gap-6 justify-center w-full">
+                <a href="#contact" class="bg-white text-brand-green hover:bg-brand-light px-10 py-5 text-sm font-bold uppercase tracking-widest transition-colors">Перевірити право на знижку</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="developer" class="py-24 md:py-32 bg-white" x-data="{ shown: false }" x-intersect.once="shown = true">
+    <div class="container mx-auto px-6 md:px-12">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <div class="order-2 lg:order-1 relative reveal delay-200" :class="shown ? 'active' : ''">
+                <img src="assets/images/58774.jpg.webp" class="w-full h-[500px] object-cover shadow-2xl" alt="КМ Щаслива Вулиця">
+                <div class="absolute -bottom-8 -right-8 bg-brand-light p-8 shadow-lg hidden md:block">
+                    <p class="font-serif text-2xl text-brand-dark mb-1">Збудовано та заселено</p>
+                    <p class="text-xs font-bold uppercase tracking-widest text-brand-accent">Святопетрівське</p>
+                </div>
+            </div>
+
+            <div class="order-1 lg:order-2 reveal" :class="shown ? 'active' : ''">
+                <p class="text-brand-accent font-bold uppercase tracking-[0.2em] text-xs mb-6">Репутація, підтверджена ділом</p>
+                <h2 class="font-serif text-4xl md:text-5xl text-brand-dark mb-8 leading-tight">Ми не продаємо обіцянки.<br> Ми будуємо.</h2>
+
+                <p class="text-brand-dark/70 text-lg font-light leading-relaxed mb-8">
+                    У сфері нерухомості найкращий аргумент — це реалізовані проєкти. Наш попередній обʼєкт, <strong class="text-brand-dark font-medium">КМ «Щаслива Вулиця» (Святопетрівське)</strong>, успішно збудований, зданий в експлуатацію і зараз там вирує життя.
+                </p>
+                <p class="text-brand-dark/70 text-lg font-light leading-relaxed mb-10">
+                    У BB Park ми привнесли весь наш технічний досвід, покращили архітектурні рішення та врахували всі побажання сучасних родин до заміського житла.
+                </p>
+
+                <a href="https://lun.ua/uk/%D0%BA%D0%BC-%D1%89%D0%B0%D1%81%D0%BB%D0%B8%D0%B2%D0%B0-%D0%B2%D1%83%D0%BB%D0%B8%D1%86%D1%8F-%D1%81%D0%B2%D1%8F%D1%82%D0%BE%D0%BF%D0%B5%D1%82%D1%80%D1%96%D0%B2%D1%81%D1%8C%D0%BA%D0%B5?srsltid=AfmBOopCuJrebNOXfeIPym9NvzFQqmXU3lVQweoNbzvfUyVQp79lsIw5" target="_blank" class="inline-flex items-center gap-4 text-brand-dark font-bold uppercase tracking-widest text-xs hover:text-brand-accent transition-colors group">
+                    <span class="border-b border-brand-dark group-hover:border-brand-accent pb-1 transition-colors">Дивитись кейс на ЛУН</span>
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="instagram-feed" class="py-24 md:py-32 bg-white border-t border-brand-dark/5">
+    <div class="container mx-auto px-6 md:px-12">
+
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-16 gap-6" x-data="{ shown: false }" x-intersect.once="shown = true">
+            <div class="reveal" :class="shown ? 'active' : ''">
+                <div class="flex items-center gap-4 mb-4">
+                    <span class="w-8 h-px bg-brand-accent"></span>
+                    <p class="text-brand-accent font-bold uppercase tracking-[0.2em] text-xs">Життя містечка</p>
+                </div>
+                <h2 class="font-serif text-4xl md:text-5xl text-brand-dark leading-tight">Щоденник <br><span class="italic text-brand-dark/50">будівництва</span></h2>
+            </div>
+
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="hidden md:inline-flex items-center gap-3 border border-brand-dark/20 hover:border-brand-dark px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-brand-dark transition-colors group reveal delay-100" :class="shown ? 'active' : ''">
+                <svg class="w-4 h-4 text-brand-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke-width="1.5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke-width="1.5"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="2"></line>
+                </svg>
+                <span class="border-b border-transparent group-hover:border-brand-dark pb-0.5 transition-colors">Підписатись в Instagram</span>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" x-data="{ shown: false }" x-intersect.once="shown = true">
+
+            <a href="#" target="_blank" class="group relative aspect-[4/5] overflow-hidden bg-brand-light shadow-xl reveal delay-200 block" :class="shown ? 'active' : ''">
+                <img src="https://scontent-iev1-1.cdninstagram.com/v/t51.82787-15/671809614_18073142570351725_2375487039645383159_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzg4MTU4NDUzMzY2MTY0MTU3NzE4MDczMTQyNTY3MzUxNzI1.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwODB4MTkyMC5zZHIuQzMifQ%3D%3D&_nc_ohc=jX2ACadaeFYQ7kNvwHiYUXZ&_nc_oc=AdqHt4NncwKUJW-mEl4-_0WncekcXK-XI7Z0sFrXFExgzP3T49tEFzExCm9bfZWChFI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-iev1-1.cdninstagram.com&_nc_gid=5OA9sTctquGLypJKWDDeqQ&_nc_ss=7a22e&oh=00_Af0R8QcqVVCmm_l4inkFIBdgyF6Cbquy7LLy5YRfImzl4w&oe=69EFDF5E" alt="Хід будівництва">
+
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500"></div>
+
+                <div class="absolute top-6 right-6 w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </div>
+
+                <div class="absolute bottom-0 left-0 w-full p-8 transform transition-transform duration-500 group-hover:-translate-y-2">
+                    <p class="text-brand-accent text-[10px] font-bold uppercase tracking-widest mb-3">Хід будівництва • 1 черга</p>
+                    <p class="text-white font-light text-sm leading-relaxed line-clamp-3 mb-4 group-hover:line-clamp-none transition-all duration-500">
+                        Закінчили монтаж даху у квадробудинках першої черги. Наступний етап — фасадні роботи та підключення комунікацій. Темпи випереджають графік! 🏗️✨
+                    </p>
+                    <div class="flex items-center gap-4 text-white/50 text-xs font-medium opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                        <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg> 142</span>
+                        <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg> 12</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="#" target="_blank" class="group relative aspect-[4/5] overflow-hidden bg-brand-light shadow-xl reveal delay-300 block" :class="shown ? 'active' : ''">
+                <img src="https://scontent-iev1-1.cdninstagram.com/v/t51.82787-15/670420835_18071401184351725_3453490252664925161_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzg3NTA4MzkyMzg4NTk4NjE0MTE4MDcxNDAxMTgxMzUxNzI1.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjc2OHgxMzY3LnNkci5DMyJ9&_nc_ohc=MP84XsqcvOgQ7kNvwGOZDGW&_nc_oc=Adq8mGsZIRDvzXkG8ttGeAvgfgEcZ2piRkt7UuQ8GTTOudFucr5CJppRuS9Dn4Oq6P8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-iev1-1.cdninstagram.com&_nc_gid=5OA9sTctquGLypJKWDDeqQ&_nc_ss=7a22e&oh=00_Af1f21sAyUJLSiZJD8iTW2E_I4JxPdVwXrmusKYw6EwoJA&oe=69EFFA81" class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="Огляд котеджу">
+
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500"></div>
+
+                <div class="absolute top-6 right-6 w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </div>
+
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none group-hover:scale-110 transition-transform duration-500">
+                    <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/40">
+                        <svg class="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-0 left-0 w-full p-8 transform transition-transform duration-500 group-hover:-translate-y-2">
+                    <p class="text-brand-accent text-[10px] font-bold uppercase tracking-widest mb-3">Рум-тур • Квадробудинок</p>
+                    <p class="text-white font-light text-sm leading-relaxed line-clamp-3 mb-4 group-hover:line-clamp-none transition-all duration-500">
+                        Що можна розмістити на 70 квадратах? Зробили відео-огляд готового планування: велика кухня-студія, майстер-спальня та світла дитяча.
+                    </p>
+                    <div class="flex items-center gap-4 text-white/50 text-xs font-medium opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                        <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> 3.2k переглядів</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="#" target="_blank" class="group relative aspect-[4/5] overflow-hidden bg-brand-light shadow-xl reveal delay-400 block" :class="shown ? 'active' : ''">
+                <img src="https://scontent-iev1-1.cdninstagram.com/v/t51.82787-15/671250926_18071963084351725_4175633313842305512_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzg3NzIzNTg0OTM4NTgzMTA3MjE4MDcxOTYzMDc4MzUxNzI1.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwODB4MTkyMC5zZHIuQzMifQ%3D%3D&_nc_ohc=Yb7tMC8tMq4Q7kNvwGz4XTd&_nc_oc=AdpTZSYGJWZnCaaJPwFmeM6b13vXLJEGLEKm5OaT_Mld75cMtgp0cPc9atF_JDRASWY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-iev1-1.cdninstagram.com&_nc_gid=5OA9sTctquGLypJKWDDeqQ&_nc_ss=7a22e&oh=00_Af1P5s4IdSMlZ4ttNsJmQTY4oSGqnHeO8en2seaPdItEkQ&oe=69EFE273" class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="Природа містечка">
+
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500"></div>
+
+                <div class="absolute top-6 right-6 w-10 h-10 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </div>
+
+                <div class="absolute bottom-0 left-0 w-full p-8 transform transition-transform duration-500 group-hover:-translate-y-2">
+                    <p class="text-brand-accent text-[10px] font-bold uppercase tracking-widest mb-3">Екосистема</p>
+                    <p class="text-white font-light text-sm leading-relaxed line-clamp-3 mb-4 group-hover:line-clamp-none transition-all duration-500">
+                        Ранок у BB Park починається зі співу птахів та чистого лісового повітря. До міської метушні — лише 15 хвилин, але повертаючись додому, ви потрапляєте у власний оазис спокою. 🌲☕
+                    </p>
+                    <div class="flex items-center gap-4 text-white/50 text-xs font-medium opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                        <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg> 215</span>
+                        <span class="flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg> 18</span>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+        <div class="mt-10 flex justify-center md:hidden" x-data="{ shown: false }" x-intersect.once="shown = true">
+            <a href="https://instagram.com" target="_blank" class="w-full flex items-center justify-center gap-3 border border-brand-dark/20 hover:bg-brand-dark hover:text-white px-8 py-5 text-[10px] font-bold uppercase tracking-widest text-brand-dark transition-colors reveal delay-500" :class="shown ? 'active' : ''">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke-width="1.5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke-width="1.5"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="2"></line>
+                </svg>
+                Слідкувати в Instagram
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<section id="contact" class="py-24 md:py-32 bg-brand-light border-t border-brand-dark/5" x-data="{ shown: false }" x-intersect.once="shown = true">
+    <div class="container mx-auto px-6 md:px-12">
+        <div class="bg-white rounded-[2rem] shadow-2xl overflow-hidden reveal" :class="shown ? 'active' : ''">
+            <div class="flex flex-col lg:flex-row">
+
+                <div class="lg:w-2/5 bg-brand-dark text-white p-12 md:p-16 flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-brand-green/20 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+
+                    <div class="relative z-10">
+                        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/10 text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-8">
+                            <svg class="w-3.5 h-3.5 text-brand-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                                <rect x="2" y="7" width="20" height="5"></rect>
+                                <line x1="12" y1="22" x2="12" y2="7"></line>
+                                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+                            </svg>
+                            <span>Отримайте PDF-презентацію</span>
+                        </div>
+                        <h2 class="font-serif text-4xl mb-6">Давайте обговоримо ваш новий дім.</h2>
+                        <p class="text-white/70 font-light leading-relaxed mb-8">
+                            Залиште запит, і я особисто надішлю вам детальні планування, актуальні ціни та розповім про умови розтермінування від забудовника.
+                        </p>
+
+                        <div class="flex items-center gap-4 p-5 bg-white/5 border border-white/10 rounded-2xl mb-8 backdrop-blur-sm">
+                            <div class="relative shrink-0">
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200" alt="Консультант" class="w-16 h-16 rounded-full object-cover border-2 border-brand-dark">
+                                <span class="absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 border-2 border-brand-dark rounded-full animate-pulse"></span>
+                            </div>
+                            <div>
+                                <p class="font-bold text-white text-lg">Олена</p>
+                                <p class="text-xs text-white/60 font-light mt-0.5">Експерт з нерухомості BB Park<br>На зв'язку просто зараз</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 mt-1">
+                                    <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-1">Локація</p>
+                                    <p class="font-serif text-lg mb-2">Між Бояркою та Білогородкою</p>
+                                    <a href="https://www.google.com/maps/dir/?api=1&destination=Котеджне+містечко+BB+Park&destination_place_id=ChIJY-mVBQC11EARw7mhZNSIkyU" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-brand-accent hover:text-white transition-colors group">
+                                        <span class="border-b border-brand-accent/40 group-hover:border-white pb-0.5 transition-colors">Прокласти маршрут</span>
+                                        <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"></path></svg>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0">
+                                    <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-1">Прямий зв'язок</p>
+                                    <a href="tel:+380678888308" class="font-serif text-xl hover:text-brand-accent transition-colors">+38 (067) 888 83 08</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:w-3/5 p-12 md:p-16 bg-white flex flex-col justify-center">
+                    <div class="mb-10">
+                        <h3 class="font-serif text-3xl text-brand-dark mb-2">Куди надіслати матеріали?</h3>
+                        <p class="text-brand-dark/50 font-light text-sm">Введіть ваші дані, і ми відправимо все у зручний для вас месенджер.</p>
+                    </div>
+
+                    <form class="space-y-10" onsubmit="event.preventDefault();">
+                        <div class="grid md:grid-cols-2 gap-10">
+                            <div class="relative group">
+                                <label class="block text-[10px] font-bold uppercase tracking-widest text-brand-dark/50 mb-2 transition-colors group-focus-within:text-brand-accent">Ваше ім'я</label>
+                                <input type="text" placeholder="Імʼя" class="w-full bg-transparent border-b border-brand-dark/20 py-2 text-brand-dark font-medium placeholder-brand-dark/20 focus:outline-none focus:border-brand-accent transition-colors">
+                            </div>
+                            <div class="relative group">
+                                <label class="block text-[10px] font-bold uppercase tracking-widest text-brand-dark/50 mb-2 transition-colors group-focus-within:text-brand-accent">Номер телефону</label>
+                                <input type="tel" placeholder="+380..." class="w-full bg-transparent border-b border-brand-dark/20 py-2 text-brand-dark font-medium placeholder-brand-dark/20 focus:outline-none focus:border-brand-accent transition-colors">
+                            </div>
+                        </div>
+
+                        <div class="relative group">
+                            <label class="block text-[10px] font-bold uppercase tracking-widest text-brand-dark/50 mb-2 transition-colors group-focus-within:text-brand-accent">Який тип житла вас цікавить?</label>
+                            <textarea placeholder="Введіть текст..." rows="1" class="w-full bg-transparent border-b border-brand-dark/20 py-2 text-brand-dark font-medium placeholder-brand-dark/20 focus:outline-none focus:border-brand-accent transition-colors resize-none"></textarea>
+                        </div>
+
+                        <div class="pt-4 flex flex-col sm:flex-row sm:items-center gap-6 justify-between">
+                            <button class="w-full sm:w-auto bg-brand-dark hover:bg-brand-accent text-white px-12 py-5 text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-4 group">
+                                Отримати матеріали
+                                <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </button>
+
+                            <div class="flex items-center gap-2 text-[10px] text-brand-dark/40 uppercase tracking-widest font-bold">
+                                <svg class="w-4 h-4 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="5" y="11" width="14" height="10" rx="2"></rect>
+                                    <path d="M8 11V7a4 4 0 1 1 8 0v4"></path>
+                                    <path d="M12 16v.01"></path>
+                                </svg>
+                                Ваші дані захищені.<br>Без спаму.
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="bg-brand-dark text-white/50 pt-20 pb-10 border-t border-white/10">
+    <div class="container mx-auto px-6 md:px-12">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
+
+            <div class="flex flex-col">
+                <a href="#" class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white">
+                        <span class="font-serif font-bold text-lg">BB</span>
+                    </div>
+                    <span class="font-serif font-bold text-2xl text-white">BB Park</span>
+                </a>
+                <p class="font-light leading-relaxed text-sm w-3/4">
+                    Закрите котеджне містечко нового покоління. Ідеальний баланс між приватністю та міським комфортом.
+                </p>
+            </div>
+
+            <div>
+                <p class="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-6">Навігація</p>
+                <ul class="space-y-4">
+                    <li><a href="#philosophy" class="font-light text-sm hover:text-white transition-colors">Філософія простору</a></li>
+                    <li><a href="#infrastructure" class="font-light text-sm hover:text-white transition-colors">Інфраструктура</a></li>
+                    <li><a href="#residences" class="font-light text-sm hover:text-white transition-colors">Обрати резиденцію</a></li>
+                    <li><a href="#developer" class="font-light text-sm hover:text-white transition-colors">Про забудовника</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <p class="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-6">Контакти</p>
+                <ul class="space-y-4">
+                    <li>
+                        <a href="tel:+380678888308" class="font-serif text-2xl text-white hover:text-brand-accent transition-colors block mb-1">+38 (067) 888 83 08</a>
+                        <p class="text-xs font-light">Пн-Нд: 09:00 - 19:00</p>
+                    </li>
+                    <li class="pt-2">
+                        <p class="text-sm font-light">Київська обл.,<br>між Бояркою та Білогородкою</p>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <p class="text-[10px] font-bold uppercase tracking-widest text-brand-accent mb-6">Слідкуйте за нами</p>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-brand-accent hover:border-brand-accent hover:text-brand-dark text-white transition-all duration-300">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke-width="1.5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" stroke-width="1.5"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="2"></line>
+                        </svg>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-brand-accent hover:border-brand-accent hover:text-brand-dark text-white transition-all duration-300">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" stroke-width="1.5"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-brand-accent hover:border-brand-accent hover:text-brand-dark text-white transition-all duration-300">
+                        <svg class="w-4 h-4 ml-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-xs font-light">&copy; 2026 BB Park. Всі права захищені.</p>
+            <div class="flex items-center gap-6 text-xs font-light">
+                <a href="#" class="hover:text-white transition-colors">Політика конфіденційності</a>
+                <a href="#" class="hover:text-white transition-colors">Договір оферти</a>
+            </div>
+        </div>
+
+    </div>
+</footer>
+
+</body>
+</html>
